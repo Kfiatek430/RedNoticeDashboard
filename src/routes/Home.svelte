@@ -2,4 +2,4 @@
     console.log("chuj")
 </script>
 
-<h1>Abcd</h1>
+<h1 class="text-5xl">RedNoticeDashboard</h1>
