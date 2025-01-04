@@ -21,6 +21,11 @@
     "vite": "^6.0.5"
   },
   "dependencies": {
-    "svelte-spa-router": "^4.0.1"
+    "@popperjs/core": "^2.11.8",
+    "flowbite": "^2.5.2",
+    "flowbite-svelte": "^0.47.4",
+    "flowbite-svelte-icons": "^2.0.2",
+    "svelte-spa-router": "^4.0.1",
+    "tailwind-merge": "^2.6.0"
   }
 }

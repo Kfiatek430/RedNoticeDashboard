@@ -1,5 +1,1 @@
-<script>
-    console.log("chuj")
-</script>
-
-<h1 class="text-5xl">RedNoticeDashboard</h1>
+<h1 class="text-xl flex justify-center text-white">RedNoticeDashboard</h1>
