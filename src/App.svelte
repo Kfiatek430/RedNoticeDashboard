@@ -9,8 +9,10 @@
   }
 </script>
 
-<SearchBar />
-<SideBar />
-<div class="mt- p-4 sm:ml-64">
+<div class="sticky top-0 flex justify-between">
+  <SideBar />
+  <SearchBar />
+</div>
+<div class="p-4 sm:ml-64">
   <Router {routes} />
 </div>
