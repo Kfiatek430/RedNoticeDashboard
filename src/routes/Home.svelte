@@ -7,8 +7,12 @@
     <p class="text-base md:text-lg flex justify-center text-gray text-center">The fastest way to browse data on wanted persons from the Interpol API.</p>
 </div>
 
-<div class="flex justify-center gap-6 flex-wrap">
-{#each new Array(15) as _, i}
-    <Card />
-{/each}
+<div class="flex flex-col items-center justify-center gap-3 p-4 text-white">
+    <h2 class="text-3xl md:text-4xl text-white text-center">Latest criminals</h2>
+    
+    <div class="flex justify-center gap-6 flex-wrap">
+        {#each new Array(3) as _}
+            <Card />
+        {/each}
+    </div>
 </div>
