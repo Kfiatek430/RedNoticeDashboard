@@ -4,7 +4,7 @@
 
 <div class="flex flex-col items-center justify-center gap-3 p-4 text-white">
     <h1 class="text-3xl sm:text-4xl md:text-5xl text-center text-white">Red Notice Dashboard</h1>
-    <p class="text-base md:text-lg flex justify-center text-gray text-center">The fastest way to browse data on wanted persons from the Interpol API.</p>
+    <p class="text-base md:text-lg flex justify-center text-gray text-center">A comprehensive solution for retrieving and browsing data on wanted individuals from Interpol's API.</p>
 </div>
 
 <div class="flex flex-col items-center justify-center gap-3 p-4 text-white">
