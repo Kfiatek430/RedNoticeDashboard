@@ -15,7 +15,7 @@
 
 <div class="max-w-sm border rounded-lg shadow bg-gray-800 border-gray-700 w-4/5 sm:w-64 sm:h-160 flex flex-col items-left justify-between">
     <div class="p-5 pb-2 flex justify-center flex-col items-center gap-3">
-        <img class="rounded-t-lg w-64 h-64" src={profilePicturePath || defaultProfilePicture} alt="" draggable="false" />
+        <img class="rounded-t-lg w-64 md:w-64 md:h-64" src={profilePicturePath || defaultProfilePicture} alt="" draggable="false" />
         <a href="{link}" class="w-full">
             <h5 class="mb-2 text-2xl text-white font-bold tracking-tight">{name}</h5>
         </a>
