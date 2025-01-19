@@ -7,12 +7,14 @@
   import Statistics from './routes/Statistics.svelte';
   import About from './routes/About.svelte';
   import Footer from './components/Footer.svelte';
+  import Id from './routes/[id].svelte';
 
   const routes = {
     '/': Home,
     '/registry': Registry,
     '/statistics': Statistics,
-    '/about': About
+    '/about': About,
+    '/criminals/:id': Id
   }
 </script>
 

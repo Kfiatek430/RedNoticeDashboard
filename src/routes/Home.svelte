@@ -11,8 +11,6 @@
     <h2 class="text-3xl md:text-4xl text-white text-center">Latest criminals</h2>
     
     <div class="flex justify-center gap-6 flex-wrap">
-        {#each new Array(3) as _}
-            <Card />
-        {/each}
+        
     </div>
 </div>
