@@ -6,25 +6,31 @@
     $: id = params.id;
 
     interface ExtendedNotice {
+        name: string;
+        forename: string;
         date_of_birth: string;
-        distinguishing_marks: string | null;
-        weight: number | null;
         nationalities: string[];
         entity_id: string;
-        eyes_colors_id: string | null;
-        sex_id: string;
+
         place_of_birth: string | null;
-        forename: string;
+        country_of_birth_id: string | null;
+
+        sex_id: string | null;
+        weight: number | null;
+        height: number | null;
+        eyes_colors_id: string | null;
+        hairs_id: string | null;
+
+        distinguishing_marks: string | null;
+
+        languages_spoken_ids: string[] | null;
+
         arrest_warrants: {
             charge: string;
-            issuing_country_id: string;
+            issuing_country_id: string | null;
             charge_translation: string | null;
         }[];
-        country_of_birth_id: string;
-        hairs_id: string | null;
-        name: string;
-        languages_spoken_ids: string[];
-        height: number | null;
+
         _embedded: {
             links: {
                 forename: string;
@@ -41,6 +47,7 @@
                 };
             }[];
         };
+
         _links: {
             self: {
                 href: string;
@@ -58,42 +65,51 @@
         public name: string;
         public forename: string;
         public dateOfBirth: string;
+        public nationalities: string[];
         public profilePicturePath: string;
         public externalLink: string;
-        public distinguishingMarks: string | null;
-        public nationalities: string[];
-        public weight: number | null;
-        public eyesColorsId: string | null;
-        public sex: string;
+
         public placeOfBirth: string | null;
+        public countryOfBirthId: string | null;
+
+        public sex: string | null;
+        public weight: number | null;
+        public height: number | null;
+        public eyesColorsId: string | null;
+        public hairsId: string | null;
+
+        public distinguishingMarks: string | null;
+
+        public languagesSpokenIds: string[] | null;
+
         public arrestWarrants: {
             charge: string;
-            issuingCountryId: string;
+            issuingCountryId: string | null;
             chargeTranslation: string | null;
         }[];
-        public countryOfBirthId: string;
-        public hairsId: string | null;
-        public languagesSpokenIds: string[];
-        public height: number | null;
 
         constructor(href: string) {
-            this.externalLink = href;
-
             this.name = "Unknown";
             this.forename = "Unknown";
             this.dateOfBirth = "Unknown";
-            this.profilePicturePath = "";
-            this.distinguishingMarks = null;
             this.nationalities = [];
-            this.weight = null;
-            this.eyesColorsId = null;
-            this.sex = "Unknown";
+            this.profilePicturePath = "";
+            this.externalLink = href;
+
             this.placeOfBirth = null;
-            this.arrestWarrants = [];
-            this.countryOfBirthId = "Unknown";
-            this.hairsId = null;
-            this.languagesSpokenIds = [];
+            this.countryOfBirthId = null;
+
+            this.sex = null;
+            this.weight = null;
             this.height = null;
+            this.hairsId = null;
+            this.eyesColorsId = null;
+
+            this.distinguishingMarks = null;
+
+            this.languagesSpokenIds = [];
+
+            this.arrestWarrants = [];
         }
 
         async run() {
@@ -113,30 +129,35 @@
             }
 
             this.dateOfBirth = new Date(data.date_of_birth).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-            this.profilePicturePath = data._links.thumbnail.href;
-            this.distinguishingMarks = data.distinguishing_marks;
             this.nationalities = data.nationalities;
-            this.weight = data.weight;
-            this.eyesColorsId = data.eyes_colors_id;
+            this.profilePicturePath = data._links.thumbnail.href;
+
+            if(this.placeOfBirth) {
+                this.placeOfBirth = data.place_of_birth!.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+            }
+
+            this.countryOfBirthId = data.country_of_birth_id;
+
             if(data.sex_id === 'M') {
                 this.sex = 'Male';
             } else {
                 this.sex = 'Female';
             }
 
-            if(this.placeOfBirth) {
-                this.placeOfBirth = data.place_of_birth!.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-            }
+            this.weight = data.weight;
+            this.height = data.height;
+            this.hairsId = data.hairs_id;
+            this.eyesColorsId = data.eyes_colors_id;
+
+            this.distinguishingMarks = data.distinguishing_marks;
+
+            this.languagesSpokenIds = data.languages_spoken_ids;
 
             this.arrestWarrants = data.arrest_warrants.map(warrant => ({
                 charge: warrant.charge.split(' ').map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : word.toLowerCase()).join(' '),
                 issuingCountryId: warrant.issuing_country_id,
                 chargeTranslation: warrant.charge_translation
             }));
-            this.countryOfBirthId = data.country_of_birth_id;
-            this.hairsId = data.hairs_id;
-            this.languagesSpokenIds = data.languages_spoken_ids;
-            this.height = data.height;
         }
     }
 
