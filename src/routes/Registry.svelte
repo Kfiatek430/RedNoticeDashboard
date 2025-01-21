@@ -1,28 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import Card from "../components/Card.svelte";
+    import type { BasicNotice } from "../types/BasicNotice";
 
     const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=1";
     let notices: BasicNotice[] = [];
 
-    interface BasicNotice {
-        date_of_birth: string;
-        entity_id: string;
-        forename: string;
-        name: string;
-        nationalities: string[];
-        _links: {
-            images: {
-                href: string;
-            };
-            self: {
-                href: string;
-            };
-            thumbnail: {
-                href: string;
-            };
-        };
-    }
+    
 
     async function fetchNotices() {
         const response = await fetch(noticesLink);
