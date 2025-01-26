@@ -22,7 +22,7 @@
             </ul>
         </div>
         <hr class="my-6 sm:mx-auto border-gray-700 lg:my-8" />
-        <span class="block text-sm sm:text-center text-gray-400">© 2025 <a href="https://flowbite.com/" class="hover:underline">Elyta   ™</a>. All Rights Reserved.</span>
+        <span class="block text-sm sm:text-center text-gray-400">© 2025 <a href="https://github.com/Kfiatek430/RedNoticeDashboard/graphs/contributors" class="hover:underline">Elyta   ™</a>. All Rights Reserved.</span>
     </div>
 </footer>
 
