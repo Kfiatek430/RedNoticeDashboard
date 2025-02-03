@@ -1,7 +1,7 @@
 <script>
     export let rows;
     export let perPage;
-	  export let trimmedRows;
+    export let trimmedRows;
 
     $: totalRows = rows.length 
     $: currentPage = 0
@@ -9,7 +9,7 @@
     $: start =  currentPage * perPage
     $: end = currentPage === totalPages - 1 ? totalRows - 1 : start + perPage - 1  ;
 
-		$: trimmedRows = rows.slice(start, end + 1);
+    $: trimmedRows = rows.slice(start, end + 1);
 
     $: totalRows, currentPage = 0
     $: currentPage, start, end
@@ -71,10 +71,6 @@
     .pagination p {
         margin: 0 1rem;
         color: white;
-    }
-
-    .selected {
-        background-color: var(--accent-color)
     }
 	
 	button {
