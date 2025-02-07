@@ -116,6 +116,18 @@
 
         console.log(criminal);
     });
+
+    let countryMap: Record<string, string> = {};
+
+    onMount(async () => {
+        try {
+            const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
+            const data = await res.json();
+            countryMap = Object.fromEntries(Object.entries(data.data).map(([code, info]) => [code, info.country]));
+        } catch (error) {
+            console.error("Error fetching country data:", error);
+        }
+    });
 </script>
 
 <div class="w-full">
@@ -127,14 +139,25 @@
                 <div class="flex items-center gap-3">
                     <p>Nationalities:</p>
                     {#each criminal.nationalities as nationality}
-                        <img src={`https://www.flagsapi.com/${nationality}/flat/24.png`} alt="" draggable="false" />
+                        <div class="relative group">
+                            <img src={`https://www.flagsapi.com/${nationality}/flat/24.png`} alt="" draggable="false" class="cursor-pointer" />
+                            <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
+                                {countryMap[nationality] || nationality}
+                            </span>
+                        </div>
                     {/each}
                 </div>
             
                 {#if criminal.countryOfBirthId}
                 <div class="flex items-center gap-3">
                     <p>Country of birth:</p>
-                    <img src={`https://www.flagsapi.com/${criminal.countryOfBirthId}/flat/24.png`} alt="" draggable="false" />
+                    
+                    <div class="relative group">
+                        <img src={`https://www.flagsapi.com/${criminal.countryOfBirthId}/flat/24.png`} alt="" draggable="false" />
+                        <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
+                            {countryMap[criminal.countryOfBirthId] || criminal.countryOfBirthId}
+                        </span>
+                    </div>
                 </div>
                 {/if}
 
