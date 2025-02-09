@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import defaultProfilePicture from '../assets/images/defaultProfilePicture.png';
+    import { fetchCountryMap } from "../utils/countryMap";
     import type { ExtendedNotice } from "../types/ExtendedNotice";
     import type { ImagesResponse } from "../types/ImagesResponse";
 
@@ -121,22 +122,16 @@
     let criminal: Criminal;
     let dataFetched = false;
 
+    let countryMap: Record<string, string> = {};
+
     onMount(async () => {
         criminal = new Criminal(`https://ws-public.interpol.int/notices/v1/red/${id}`);
         await criminal.run();
         dataFetched = true;
-    });
+      
+        countryMap = await fetchCountryMap() || {};
 
-    let countryMap: Record<string, string> = {};
-
-    onMount(async () => {
-        try {
-            const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
-            const data = await res.json();
-            countryMap = Object.fromEntries(Object.entries(data.data).map(([code, info]) => [code, info.country]));
-        } catch (error) {
-            console.error("Error fetching country data:", error);
-        }
+        console.log(criminal);
     });
 </script>
 

@@ -6,6 +6,7 @@
     export let nationalities: string[];
 
     import { onMount } from "svelte";
+    import { fetchCountryMap } from "../utils/countryMap";
     import defaultProfilePicture from '../assets/images/defaultProfilePicture.png';
 
     name = name.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
@@ -16,13 +17,7 @@
     let countryMap: Record<string, string> = {};
 
     onMount(async () => {
-        try {
-            const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
-            const data = await res.json();
-            countryMap = Object.fromEntries(Object.entries(data.data).map(([code, info]) => [code, info.country]));
-        } catch (error) {
-            console.error("Error fetching country data:", error);
-        }
+        countryMap = await fetchCountryMap() || {};
     });
 </script>
 
