@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import defaultProfilePicture from '../assets/images/defaultProfilePicture.png';
     import type { ExtendedNotice } from "../types/ExtendedNotice";
+    import { fetchCountryMap } from "../utils/countryMap";
 
     export let params: { id: string } = { id: '' };
     $: id = params.id;
@@ -109,35 +110,18 @@
     let criminal: Criminal;
     let dataFetched = false;
 
+    let countryMap: Record<string, string> = {};
+
     onMount(async () => {
         criminal = new Criminal(`https://ws-public.interpol.int/notices/v1/red/${id}`);
         await criminal.run();
         dataFetched = true;
 
+        countryMap = await fetchCountryMap() || {};
+
         console.log(criminal);
     });
 
-    let countryMap: Record<string, string> = {};
-
-    onMount(async () => {
-    try {
-        const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
-        const data = await res.json();
-
-        countryMap = Object.fromEntries(
-            Object.entries(data.data).map(([code, info]) => [
-                code,
-                info.country
-                    .replace(/\s*\(.*?\)\s*/g, "")
-                    .trim() === "United Kingdom of Great Britain and Northern Ireland"
-                    ? "United Kingdom of Great Britain"
-                    : info.country.replace(/\s*\(.*?\)\s*/g, "").trim()
-            ])
-        );
-    } catch (error) {
-        console.error("Error fetching country data:", error);
-    }
-    });
 </script>
 
 <div class="w-full">
