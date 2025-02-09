@@ -16,13 +16,23 @@
     let countryMap: Record<string, string> = {};
 
     onMount(async () => {
-        try {
-            const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
-            const data = await res.json();
-            countryMap = Object.fromEntries(Object.entries(data.data).map(([code, info]) => [code, info.country]));
-        } catch (error) {
-            console.error("Error fetching country data:", error);
-        }
+    try {
+        const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
+        const data = await res.json();
+
+        countryMap = Object.fromEntries(
+            Object.entries(data.data).map(([code, info]) => [
+                code,
+                info.country
+                    .replace(/\s*\(.*?\)\s*/g, "")
+                    .trim() === "United Kingdom of Great Britain and Northern Ireland"
+                    ? "United Kingdom"
+                    : info.country.replace(/\s*\(.*?\)\s*/g, "").trim()
+            ])
+        );
+    } catch (error) {
+        console.error("Error fetching country data:", error);
+    }
     });
 </script>
 
@@ -40,15 +50,12 @@
             <div class="flex gap-2 items-center">
                 {#each nationalities as nationality}
                   <div class="group flex flex-col items-center w-12">
-                    <!-- Tooltip -->
                     <span
                       class="text-white text-xs py-1 whitespace-nowrap opacity-0 transition-opacity duration-200 -mb-1 group-hover:opacity-100 text-center z-10"
                       style="max-width: 100%;"
                     >
-                      {countryMap[nationality] || nationality}
+                      {countryMap[nationality]}
                     </span>
-              
-                    <!-- Flag Image -->
                     <img
                       src={`https://www.flagsapi.com/${nationality}/flat/48.png`}
                       alt=""
