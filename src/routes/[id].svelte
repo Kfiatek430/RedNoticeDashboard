@@ -130,23 +130,13 @@
     let countryMap: Record<string, string> = {};
 
     onMount(async () => {
-    try {
-        const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
-        const data = await res.json();
-
-        countryMap = Object.fromEntries(
-            Object.entries(data.data).map(([code, info]) => [
-                code,
-                info.country
-                    .replace(/\s*\(.*?\)\s*/g, "")
-                    .trim() === "United Kingdom of Great Britain and Northern Ireland"
-                    ? "United Kingdom of Great Britain"
-                    : info.country.replace(/\s*\(.*?\)\s*/g, "").trim()
-            ])
-        );
-    } catch (error) {
-        console.error("Error fetching country data:", error);
-    }
+        try {
+            const res = await fetch("https://api.first.org/data/v1/countries?limit=260");
+            const data = await res.json();
+            countryMap = Object.fromEntries(Object.entries(data.data).map(([code, info]) => [code, info.country]));
+        } catch (error) {
+            console.error("Error fetching country data:", error);
+        }
     });
 </script>
 
@@ -156,12 +146,12 @@
         <div class="flex flex-col md:flex-row justify-center gap-5 p-4 text-white w-full">
             <aside class="w-full md:w-1/3 flex flex-col gap-2 p-4 font-bold">
                 <img class="rounded-lg w-full md:w-64" src={criminal.profilePicturePath || defaultProfilePicture} alt="" draggable="false" />
-                <div class="flex items-center gap-x-3 flex-wrap">
+                <div class="flex items-center gap-3">
                     <p>Nationalities:</p>
                     {#each criminal.nationalities as nationality}
-                        <div class="flex">
+                        <div class="relative group">
                             <img src={`https://www.flagsapi.com/${nationality}/flat/24.png`} alt="" draggable="false" class="cursor-pointer" />
-                            <span class="text-white text-xs rounded py-1 whitespace-nowrap ml-1">
+                            <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
                                 {countryMap[nationality] || nationality}
                             </span>
                         </div>
@@ -171,9 +161,10 @@
                 {#if criminal.countryOfBirthId}
                 <div class="flex items-center gap-3">
                     <p>Country of birth:</p>
-                    <div class="flex">
+                    
+                    <div class="relative group">
                         <img src={`https://www.flagsapi.com/${criminal.countryOfBirthId}/flat/24.png`} alt="" draggable="false" />
-                        <span class="text-white text-xs rounded py-1 whitespace-nowrap ml-1">
+                        <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
                             {countryMap[criminal.countryOfBirthId] || criminal.countryOfBirthId}
                         </span>
                     </div>
