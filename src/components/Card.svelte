@@ -30,26 +30,16 @@
     </div>
     
     <div class="p-5 pt-0">
-        <p class="mb-1 font-normal text-gray-400">{dateOfBirth}</p>
+        <p class="mb-3 font-normal text-gray-400">{dateOfBirth}</p>
         <div class="flex gap-3 mb-3">
-            <div class="flex gap-2 items-center">
-                {#each nationalities as nationality}
-                  <div class="group flex flex-col items-center w-12">
-                    <span
-                      class="text-white text-xs py-1 whitespace-nowrap opacity-0 transition-opacity duration-200 -mb-1 group-hover:opacity-100 text-center z-10"
-                      style="max-width: 100%;"
-                    >
-                      {countryMap[nationality]}
+            {#each nationalities as nationality}
+                <div class="relative group">
+                    <img src={`https://www.flagsapi.com/${nationality}/flat/48.png`} alt="" draggable="false" class="cursor-pointer" />
+                    <span class="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
+                        {countryMap[nationality] || nationality}
                     </span>
-                    <img
-                      src={`https://www.flagsapi.com/${nationality}/flat/48.png`}
-                      alt=""
-                      draggable="false"
-                      class="cursor-pointer hover:brightness-110"
-                    />
-                  </div>
-                {/each}
-              </div>
+                </div>
+            {/each}
         </div>
         <a href="{link}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">
             Read more
