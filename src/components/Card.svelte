@@ -6,8 +6,9 @@
   export let nationalities: string[];
 
   import { onMount } from "svelte";
+  // @ts-ignore
   import { fetchCountryMap } from "../utils/countryMap";
-  import defaultProfilePicture from "../assets/images/defaultProfilePicture.png";
+  import defaultProfilePicture from '../assets/images/defaultProfilePicture.png';
 
   name = name
     .split(" ")
