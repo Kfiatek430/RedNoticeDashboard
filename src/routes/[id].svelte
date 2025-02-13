@@ -166,6 +166,7 @@
     countryMap = (await fetchCountryMap()) || {};
 
     console.log(criminal);
+    console.log(countryMap)
   });
 </script>
 
