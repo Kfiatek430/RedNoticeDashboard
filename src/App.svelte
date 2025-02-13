@@ -1,7 +1,7 @@
 <script lang="ts">
   import Router from "svelte-spa-router";
   import Home from "./routes/Home.svelte";
-  import SearchBar from "./components/SearchBar.svelte";
+  import Header from "./components/Header.svelte";
   import SideBar from "./components/SideBar.svelte";
   import Registry from "./routes/Registry.svelte";
   import Statistics from "./routes/Statistics.svelte";
@@ -20,7 +20,7 @@
 
 <div class="sticky top-0 flex justify-between">
   <SideBar />
-  <SearchBar />
+  <Header />
 </div>
 <div
   class="p-4 sm:ml-64 min-h-[calc(100vh-5rem)] flex flex-col justify-between items-center"
