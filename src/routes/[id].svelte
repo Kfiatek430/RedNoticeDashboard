@@ -141,12 +141,12 @@
         <div class="flex flex-col md:flex-row justify-center gap-5 p-4 text-white w-full">
             <aside class="w-full md:w-1/3 flex flex-col gap-2 p-4 font-bold">
                 <img class="rounded-lg w-full md:w-64" src={criminal.profilePicturePath || defaultProfilePicture} alt="" draggable="false" />
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-x-3 flex-wrap">
                     <p>Nationalities:</p>
                     {#each criminal.nationalities as nationality}
-                        <div class="relative group">
+                        <div class="flex">
                             <img src={`https://www.flagsapi.com/${nationality}/flat/24.png`} alt="" draggable="false" class="cursor-pointer" />
-                            <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
+                            <span class="text-white text-xs rounded py-1 whitespace-nowrap ml-1">
                                 {countryMap[nationality] || nationality}
                             </span>
                         </div>
@@ -156,10 +156,9 @@
                 {#if criminal.countryOfBirthId}
                 <div class="flex items-center gap-3">
                     <p>Country of birth:</p>
-                    
-                    <div class="relative group">
+                    <div class="flex">
                         <img src={`https://www.flagsapi.com/${criminal.countryOfBirthId}/flat/24.png`} alt="" draggable="false" />
-                        <span class="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap min-w-max">
+                        <span class="text-white text-xs rounded py-1 whitespace-nowrap ml-1">
                             {countryMap[criminal.countryOfBirthId] || criminal.countryOfBirthId}
                         </span>
                     </div>
