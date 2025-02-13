@@ -1,6 +1,12 @@
 <script lang="ts">
-  import { HomeSolid, GridSolid, ChartPieSolid, InfoCircleSolid, CloseCircleSolid } from 'flowbite-svelte-icons';
-  import { onMount } from 'svelte';
+  import {
+    HomeSolid,
+    GridSolid,
+    ChartPieSolid,
+    InfoCircleSolid,
+    CloseCircleSolid,
+  } from "flowbite-svelte-icons";
+  import { onMount } from "svelte";
 	import SearchContainer from './SearchContainer.svelte';
 
   let sidebarVisible = false;
@@ -12,7 +18,7 @@
 
   function hideSidebar() {
     sidebarVisible = false;
-    document.body.classList.remove('overflow-hidden');
+    document.body.classList.remove("overflow-hidden");
   }
 
   onMount(() => {
@@ -20,9 +26,9 @@
       currentPath = window.location.hash;
     });
 
-    const links = document.querySelectorAll('#default-sidebar a');
-    links.forEach(link => {
-      link.addEventListener('click', hideSidebar);
+    const links = document.querySelectorAll("#default-sidebar a");
+    links.forEach((link) => {
+      link.addEventListener("click", hideSidebar);
     });
   });
 
@@ -59,7 +65,9 @@
 
 <aside
   id="default-sidebar"
-  class="fixed top-0 left-0 z-50 w-64 bg-gray-800 h-screen transition-transform {sidebarVisible ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:pt-[4rem]"
+  class="fixed top-0 left-0 z-50 w-64 bg-gray-800 h-screen transition-transform {sidebarVisible
+    ? 'translate-x-0'
+    : '-translate-x-full'} sm:translate-x-0 sm:pt-[4rem]"
   aria-label="Sidebar"
 >
   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-800">
@@ -72,7 +80,9 @@
           href="/"
           class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
         >
-          <HomeSolid class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white" />
+          <HomeSolid
+            class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+          />
           <span class="ms-3">Home</span>
         </a>
       </li>
@@ -81,7 +91,9 @@
           href="/#/registry"
           class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
         >
-          <GridSolid class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white" />
+          <GridSolid
+            class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+          />
           <span class="flex-1 ms-3 whitespace-nowrap">Registry</span>
         </a>
       </li>
@@ -90,7 +102,9 @@
           href="/#/statistics"
           class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
         >
-          <ChartPieSolid class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white" />
+          <ChartPieSolid
+            class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+          />
           <span class="flex-1 ms-3 whitespace-nowrap">Statistics</span>
         </a>
       </li>
@@ -99,7 +113,9 @@
           href="/#/about"
           class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
         >
-          <InfoCircleSolid class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white" />
+          <InfoCircleSolid
+            class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+          />
           <span class="flex-1 ms-3 whitespace-nowrap">About</span>
         </a>
       </li>
