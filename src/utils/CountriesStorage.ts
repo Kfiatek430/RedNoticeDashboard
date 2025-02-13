@@ -1,6 +1,6 @@
 export interface Country {
   name: string;
-  img: string;
+  code: string;
 }
 
 export async function fetchCountries(): Promise<Country[]> {
@@ -17,7 +17,7 @@ export async function fetchCountries(): Promise<Country[]> {
           "United Kingdom of Great Britain and Northern Ireland"
             ? "United Kingdom"
             : info.country.replace(/\s*\(.*?\)\s*/g, "").trim(),
-        img: code,
+        code: code,
       })
     );
   } catch (error) {

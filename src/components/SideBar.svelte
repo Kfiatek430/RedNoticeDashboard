@@ -7,8 +7,10 @@
     CloseCircleSolid,
   } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
+	import SearchContainer from './SearchContainer.svelte';
 
   let sidebarVisible = false;
+  let currentPath = window.location.hash;
 
   function toggleSidebar() {
     sidebarVisible = !sidebarVisible;
@@ -20,11 +22,18 @@
   }
 
   onMount(() => {
+    window.addEventListener('popstate', () => {
+      currentPath = window.location.hash;
+    });
+
     const links = document.querySelectorAll("#default-sidebar a");
     links.forEach((link) => {
       link.addEventListener("click", hideSidebar);
     });
   });
+
+  $: console.log(currentPath);
+  $: isRegistryPage = currentPath === "#/registry";
 </script>
 
 <div class="w-1/5 md:w-64 h-20 bg-gray-800 flex justify-center items-center">
@@ -111,5 +120,11 @@
         </a>
       </li>
     </ul>
+
+    {#if isRegistryPage}
+      <div class="space-y-2 font-medium">
+        <SearchContainer />
+      </div>
+    {/if}
   </div>
 </aside>
