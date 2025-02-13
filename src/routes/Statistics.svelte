@@ -7,7 +7,7 @@
     "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=";
   let notices: BasicNotice[] = [];
   let chartData = [0, 0, 0, 0, 0, 0];
-  let chartData2 = [0, 0, 0, 0, 0];
+  let chartData2 = [0, 0, 0, 0, 0, 0, 0];
   async function fetchNotices() {
     try {
       let id = 1;
@@ -52,6 +52,10 @@
           chartData2[3]++;
         } else if (countryCodes.includes("JM")) {
           chartData2[4]++;
+        } else if (countryCodes.includes("PL")) {
+          chartData2[5]++;
+        } else if (countryCodes.includes("GT")) {
+          chartData2[6]++;
         }
       }
     });
@@ -60,7 +64,15 @@
   let chart1;
   let chart2;
   const data2 = {
-    labels: ["France", "China", "Belize", "Russian Federation", "Jamaica"],
+    labels: [
+      "France",
+      "China",
+      "Belize",
+      "Russian Federation",
+      "Jamaica",
+      "Poland",
+      "Guatemala",
+    ],
     datasets: [
       {
         label: "Amount",
@@ -72,6 +84,7 @@
           "#7fd7c1d9",
           "#9f8caed9",
           "#eb6672d9",
+          "#eafd88d9",
         ],
         borderWidth: 0,
       },
@@ -172,5 +185,5 @@
     height={300}
     style="margin-bottom: 70px;"
   />
-  <canvas bind:this={chart2} width={400} height={300} />
+  <canvas bind:this={chart2} width={250} height={250} />
 </div>
