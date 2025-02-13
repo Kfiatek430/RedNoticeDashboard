@@ -3,7 +3,6 @@
   import type { Country } from "../utils/CountriesStorage";
   import { fetchCountries } from "../utils/CountriesStorage";
   import { onMount } from "svelte";
-  import "/node_modules/flag-icons/css/flag-icons.min.css";
 
   let firstName = "";
   let lastName = "";
