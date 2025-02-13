@@ -1,15 +1,54 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
+  import type { BasicNotice } from "../types/BasicNotice";
 
-    let portfolio;
+    const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page="
+    let notices: BasicNotice[] = [];
+    let chartData = [0, 0, 0, 0, 0, 0];
+    async function fetchNotices() {
+        try{
+            let id = 1;
+            while(id < 5){
+                const link = noticesLink + id;
+                const response = await fetch(link);
+                const data = await response.json();
+                notices = notices.concat(data._embedded.notices);
+                id++;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+    function getChartData() {
+        notices.forEach(e => {
+            let yearOfBirth = e.date_of_birth.substring(0, 4);
+            let age = (new Date()).getFullYear() - Number(yearOfBirth)
+            if (age <= 20) {
+                chartData[0]++;
+            } else if (age <= 25) {
+                chartData[1]++;
+            } else if (age <= 30) {
+                chartData[2]++;
+            } else if (age <= 40) {
+                chartData[3]++;
+            } else if (age <= 50) {
+                chartData[4]++;
+            } else if (age > 50) {
+                chartData[5]++;
+            }
+        })
+    }
+    
+    let chart1;
     const data = {
-        labels: ["Expenses", "Savings", "Investments"],
+        labels: ["<=20", "<=25", "<=30", "<=40", "<=50", ">50"],
         datasets: [
             {
-                label: "My First Dataset",
-                data: [300, 50, 100],
-                backgroundColor: ["#7000e1", "#fc8800", "#00b0e8"],
+                label: "Amount",
+                data: chartData,
+                backgroundColor: ["#37b067d9", "#6296bcd9", "#edb40dd9", "#7fd7c1d9", "#9f8caed9", "#eb6672d9"],
                 // hoverOffset: 4,
                 borderWidth: 0,
             },
@@ -36,14 +75,19 @@
                 },
                 title: {
                     display: true,
-                    text: "My Personal Portfolio",
+                    text: "Number of criminals of the selected age",
                 },
             },
         },
     };
-    onMount(() => {
-        const ctx = portfolio!.getContext("2d");
+    onMount(async () => {
+        
+        await fetchNotices();
+        getChartData()
+
+        const ctx = chart1!.getContext("2d");
         var myChart = new Chart(ctx, config);
+        // console.log((new Date()).getFullYear() - Number(notices[0].date_of_birth.substring(0, 4)))
     });
 </script>
 
@@ -56,5 +100,5 @@
         analysis.
     </p>
 
-    <canvas bind:this={portfolio} width={400} height={400} />
+    <canvas bind:this={chart1} width={400} height={300} />
 </div>
