@@ -4,21 +4,15 @@
     import type { BasicNotice } from "../types/BasicNotice";
     import Pagination from "./../components/Pagination.svelte";
 
-    const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=";
+    const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=160&page=1";
     let notices: BasicNotice[] = [];
     let paginatedNotices: BasicNotice[] = [];
-    const numberOfPages = 50;
 
     async function fetchNotices() {
         try{
-            let id = 1;
-            while(id < numberOfPages){
-                const link = noticesLink + id;
-                const response = await fetch(link);
-                const data = await response.json();
-                notices = notices.concat(data._embedded.notices);
-                id++;
-            }
+            const response = await fetch(noticesLink);
+            const data = await response.json();
+            notices = notices.concat(data._embedded.notices);
         } catch (error) {
             console.error(error);
         }
