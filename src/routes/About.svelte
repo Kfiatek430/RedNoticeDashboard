@@ -16,7 +16,7 @@
   async function fetchContributors() {
     try {
       const res = await fetch(
-        "https://api.github.com/repos/sveltejs/svelte/stats/contributors"
+        "https://api.github.com/repos/Kfiatek430/RedNoticeDashboard/stats/contributors"
       );
       if (!res.ok) throw new Error("Błąd pobierania danych");
 
