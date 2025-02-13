@@ -1,7 +1,9 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import defaultProfilePicture from "../assets/images/defaultProfilePicture.png";
+    import defaultProfilePicture from '../assets/images/defaultProfilePicture.png';
+    import { fetchCountryMap } from "../utils/countryMap";
     import type { ExtendedNotice } from "../types/ExtendedNotice";
+    import type { ImagesResponse } from "../types/ImagesResponse";
 
     export let params: { id: string } = { id: "" };
     $: id = params.id;
@@ -33,6 +35,8 @@
             chargeTranslation: string | null;
         }[];
 
+        public imagesLinks: string[];
+
         constructor(href: string) {
             this.name = "Unknown";
             this.forename = "Unknown";
@@ -55,6 +59,8 @@
             this.languagesSpokenIds = [];
 
             this.arrestWarrants = [];
+
+            this.imagesLinks = [];
         }
 
         async run() {
@@ -117,8 +123,11 @@
             this.height = data.height;
             this.hairsId = data.hairs_id;
             this.eyesColorsId = data.eyes_colors_id;
-
+            
             this.distinguishingMarks = data.distinguishing_marks;
+            if(this.distinguishingMarks) {
+                this.distinguishingMarks = data.distinguishing_marks!.split(' ').map((mark) => mark.charAt(0).toUpperCase() + mark.slice(1).toLowerCase()).join(' ');
+            }
 
             this.languagesSpokenIds = data.languages_spoken_ids;
 
@@ -135,11 +144,17 @@
                 issuingCountryId: warrant.issuing_country_id,
                 chargeTranslation: warrant.charge_translation,
             }));
+
+            const imagesResponse = await fetch(data._links.images.href);
+            let imagesData: ImagesResponse = await imagesResponse.json();
+            this.imagesLinks = imagesData._embedded.images.map(image => image._links.self.href);
         }
     }
 
     let criminal: Criminal;
     let dataFetched = false;
+
+    let countryMap: Record<string, string> = {};
 
     onMount(async () => {
         criminal = new Criminal(
@@ -147,40 +162,17 @@
         );
         await criminal.run();
         dataFetched = true;
+      
+        countryMap = await fetchCountryMap() || {};
 
         console.log(criminal);
-    });
-
-    let countryMap: Record<string, string> = {};
-
-    onMount(async () => {
-        try {
-            const res = await fetch(
-                "https://api.first.org/data/v1/countries?limit=260",
-            );
-            const data = await res.json();
-            countryMap = Object.fromEntries(
-                Object.entries(data.data).map(([code, info]) => [
-                    code,
-                    info.country,
-                ]),
-            );
-        } catch (error) {
-            console.error("Error fetching country data:", error);
-        }
     });
 </script>
 
 <div class="w-full">
     {#if dataFetched}
-        <h1
-            class="text-3xl sm:text-4xl md:text-5xl text-center text-white mb-5"
-        >
-            {criminal.name + " " + criminal.forename}
-        </h1>
-        <div
-            class="flex flex-col md:flex-row items-start justify-center gap-5 p-4 text-white w-full"
-        >
+    <h1 class="text-3xl sm:text-4xl md:text-5xl text-center text-white mb-5">{criminal.name + " " + criminal.forename}</h1>
+        <div class="flex flex-col md:flex-row justify-center gap-5 p-4 text-white w-full">
             <aside class="w-full md:w-1/3 flex flex-col gap-2 p-4 font-bold">
                 <img
                     class="rounded-lg w-full md:w-64"
@@ -277,24 +269,28 @@
                     </p>
                 {/if}
             </aside>
-            <div
-                class="w-full md:w-2/3 h-full flex flex-col gap-2 justify-start p-4"
-            >
-                <h2 class="font-bold text-xl">Arrest warrants:</h2>
-                <ul>
-                    {#each criminal.arrestWarrants as warrant}
-                        <li>
-                            {warrant.charge}
-                        </li>
+            <div class="w-full md:w-2/3 p-4 flex flex-col justify-between gap-5">
+                <div class="flex flex-col gap-2 justify-start">
+                    <h2 class="font-bold text-xl flex-grow">Arrest warrants:</h2>
+                    <ul>
+                        {#each criminal.arrestWarrants as warrant}
+                            <li>
+                                {warrant.charge}
+                            </li>
+                        {/each}
+                    </ul>
+    
+                    {#if criminal.distinguishingMarks}
+                        <h2 class="font-bold text-xl mt-3">Distinguishing marks:</h2>
+                        <p>{criminal.distinguishingMarks}</p>
+                    {/if}
+                </div>
+                
+                <div class="flex justify-center md:justify-start flex-wrap gap-4">
+                    {#each criminal.imagesLinks as imageLink}
+                        <img class="rounded-lg w-60" src={imageLink} alt="" draggable="false" />
                     {/each}
-                </ul>
-
-                {#if criminal.distinguishingMarks}
-                    <h2 class="font-bold text-xl mt-3">
-                        Distinguishing marks:
-                    </h2>
-                    <p>{criminal.distinguishingMarks}</p>
-                {/if}
+                </div>
             </div>
         </div>
     {/if}
