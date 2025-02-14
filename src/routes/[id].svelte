@@ -240,7 +240,7 @@
         {/if}
 
         {#if criminal.height}
-          <p>Height: <span class="font-normal">{criminal.height} cm</span></p>
+          <p>Height: <span class="font-normal">{criminal.height} m</span></p>
         {/if}
 
         {#if criminal.weight}

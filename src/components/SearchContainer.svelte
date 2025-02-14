@@ -17,6 +17,7 @@
       const baseUrl = "https://ws-public.interpol.int/notices/v1/red";
       const params = new URLSearchParams();
 
+      console.warn(country);
       if (firstName) params.append("forename", firstName.toUpperCase());
       if (lastName) params.append("name", lastName.toUpperCase());
       if (country) params.append("nationality", country);
