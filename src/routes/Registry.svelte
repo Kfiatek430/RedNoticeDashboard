@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import Card from "../components/Card.svelte";
-  import type { BasicNotice } from "../types/BasicNotice";
-  import Pagination from "./../components/Pagination.svelte";
-  import { searchQuery } from "../stores/searchStore";
-
+	import { onMount } from "svelte";
+	import Card from "../components/Card.svelte";
+	import type { BasicNotice } from "../types/BasicNotice";
+	import Pagination from "./../components/Pagination.svelte";
+	import { searchQuery } from "../stores/searchStore";
+    
+  let paginatedNotices: BasicNotice[] = [];
+  let notices: BasicNotice[] = [];
+    
+	searchQuery.subscribe((value) => {
+        notices = value;
+    });
+	
+    const noticesLink =
+		"https://ws-public.interpol.int/notices/v1/red?&resultPerPage=160&page=1";
   let paginatedNotices: BasicNotice[] = [];
 
   searchQuery.subscribe((value) => {
