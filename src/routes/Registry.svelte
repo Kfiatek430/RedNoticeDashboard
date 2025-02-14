@@ -12,7 +12,7 @@
   });
 
   const noticesLink =
-    "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=160&page=1";
+    "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=1";
   let notices: BasicNotice[] = [];
 
   async function fetchNotices() {
@@ -37,8 +37,7 @@
     Criminals Registry
   </h1>
   <p class="text-base md:text-lg flex justify-center text-gray text-center">
-    Browse and manage detailed records of offenders with advanced sorting and
-    filtering options.
+    Browse and manage detailed records of offenders.
   </p>
 </div>
 <div class="flex flex-col justify-center">

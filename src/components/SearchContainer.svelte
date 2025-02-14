@@ -29,7 +29,7 @@
       console.log(firstName, lastName, country, minAge, maxAge, freeText, sex);
 
       params.append("page", "1");
-      params.append("resultPerPage", "200");
+      params.append("resultPerPage", "50");
 
       const response = await fetch(`${baseUrl}?${params.toString()}`);
       const data = await response.json();
