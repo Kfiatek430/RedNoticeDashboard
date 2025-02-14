@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import Card from "../components/Card.svelte";
-	import type { BasicNotice } from "../types/BasicNotice";
-	import Pagination from "./../components/Pagination.svelte";
-	import { searchQuery } from "../stores/searchStore";
-    
-  let paginatedNotices: BasicNotice[] = [];
-  let notices: BasicNotice[] = [];
-    
-	searchQuery.subscribe((value) => {
-        notices = value;
-    });
-	
-    const noticesLink =
-		"https://ws-public.interpol.int/notices/v1/red?&resultPerPage=160&page=1";
+  import { onMount } from "svelte";
+  import Card from "../components/Card.svelte";
+  import type { BasicNotice } from "../types/BasicNotice";
+  import Pagination from "./../components/Pagination.svelte";
+  import { searchQuery } from "../stores/searchStore";
+
   let paginatedNotices: BasicNotice[] = [];
 
   searchQuery.subscribe((value) => {
@@ -29,6 +20,7 @@
       const response = await fetch(noticesLink);
       const data = await response.json();
       notices = notices.concat(data._embedded.notices);
+	  searchQuery.set(notices);
     } catch (error) {
       console.error(error);
     }
@@ -50,8 +42,10 @@
   </p>
 </div>
 <div class="flex flex-col justify-center">
-  {#if paginatedNotices.length === 0}
-    <p class="text-white text-center text-3xl sm:text-4xl md:text-5xl">Criminals Not Found</p>
+  {#if notices.length === 0 || paginatedNotices.length === 0}
+    <p class="text-white text-center text-3xl sm:text-4xl md:text-5xl">
+      Criminals Not Found
+    </p>
   {:else}
     <div class="flex justify-center gap-6 flex-wrap p-4">
       {#each paginatedNotices as criminal (criminal.entity_id)}
