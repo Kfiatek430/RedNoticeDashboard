@@ -11,16 +11,13 @@
     paginatedNotices = value;
   });
 
-  const noticesLink =
-    "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=1";
-  let notices: BasicNotice[] = [];
+  const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=1";
 
   async function fetchNotices() {
     try {
       const response = await fetch(noticesLink);
       const data = await response.json();
-      notices = notices.concat(data._embedded.notices);
-	  searchQuery.set(notices);
+      searchQuery.set(data._embedded.notices);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +25,6 @@
 
   onMount(async () => {
     await fetchNotices();
-    console.log(notices);
   });
 </script>
 
@@ -41,7 +37,7 @@
   </p>
 </div>
 <div class="flex flex-col justify-center">
-  {#if notices.length === 0 || paginatedNotices.length === 0}
+  {#if paginatedNotices.length === 0}
     <p class="text-white text-center text-3xl sm:text-4xl md:text-5xl">
       Criminals Not Found
     </p>
@@ -59,7 +55,7 @@
     </div>
     <div class="flex items-center justify-center">
       <Pagination
-        rows={notices}
+        rows={$searchQuery}
         perPage={10}
         bind:trimmedRows={paginatedNotices}
       />
