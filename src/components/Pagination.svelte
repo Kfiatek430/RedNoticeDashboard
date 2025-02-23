@@ -1,12 +1,14 @@
-<script>
+<script lang="ts">
+  import { derived } from 'svelte/store';
   export let rows;
   export let perPage;
   export let trimmedRows;
+  export let currentPage = 0;
+
 
   $: totalRows = rows.length;
   $: totalPages = Math.ceil(totalRows / perPage);
 
-  let currentPage = 0;
   let userInputPage = currentPage + 1;
 
   $: start = currentPage * perPage;
@@ -25,10 +27,7 @@
     }
   }
 
-  /**
-   * @param {number} step
-   */
-  async function changePage(step) {
+  async function changePage(step: number) {
     if (currentPage + step >= 0 && currentPage + step < totalPages) {
       currentPage += step;
     }
@@ -66,6 +65,7 @@
         min="1"
         max={totalPages}
         on:keydown={(e) => e.key === "Enter" && goToPage()}
+        on:blur={goToPage}
       />
       of {totalPages}</span
     >
