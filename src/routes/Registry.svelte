@@ -6,9 +6,11 @@
   import { searchQuery } from "../stores/searchStore";
 
   let paginatedNotices: BasicNotice[] = [];
+  let currentPage = 0;
 
   searchQuery.subscribe((value) => {
     paginatedNotices = value;
+    currentPage = 0; 
   });
 
   const noticesLink = "https://ws-public.interpol.int/notices/v1/red?&resultPerPage=50&page=1";
@@ -58,6 +60,7 @@
         rows={$searchQuery}
         perPage={10}
         bind:trimmedRows={paginatedNotices}
+        bind:currentPage
       />
     </div>
   {/if}
