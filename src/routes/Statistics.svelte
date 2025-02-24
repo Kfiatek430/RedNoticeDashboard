@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Chart from "chart.js/auto";
+  import Chart, { type ChartConfiguration } from "chart.js/auto";
   import type { BasicNotice } from "../types/BasicNotice";
 
   const noticesLink =
@@ -90,7 +90,7 @@
       },
     ],
   };
-  const config2 = {
+  const config2: ChartConfiguration<"doughnut"> = {
     type: "doughnut",
     data: data2,
     options: {
@@ -132,13 +132,11 @@
       },
     ],
   };
-  const config = {
+  const config: ChartConfiguration<"bar"> = {
     type: "bar",
     data: data,
     options: {
       responsive: true,
-      cutout: "95%",
-      spacing: 2,
       plugins: {
         legend: {
           position: "bottom",
@@ -183,6 +181,6 @@
     width={400}
     height={300}
     style="margin-bottom: 70px;"
-  />
-  <canvas bind:this={chart2} width={250} height={250} />
+  ></canvas>
+  <canvas bind:this={chart2} width={250} height={250}></canvas>
 </div>
