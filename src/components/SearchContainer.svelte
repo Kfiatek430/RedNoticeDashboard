@@ -170,6 +170,7 @@
     width: 50%;
     text-align: center;
     -moz-appearance: textfield;
+    appearance: textfield;
   }
 
   .age::-webkit-outer-spin-button,
