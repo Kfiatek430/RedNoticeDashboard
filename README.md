@@ -1,4 +1,4 @@
-# RedNoticeDashboard ![](https://img.shields.io/badge/status-in%20progress-yellow)
+# RedNoticeDashboard
 
 A comprehensive solution for retrieving and browsing data on wanted individuals from Interpol's API.
 
