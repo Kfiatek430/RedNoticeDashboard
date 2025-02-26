@@ -49,6 +49,8 @@
       .catch((error) => {
         console.error(error);
     });
+
+    countries.sort((a, b) => a.name.localeCompare(b.name));
   });
 </script>
 
@@ -75,12 +77,6 @@
         <option value="">Select Country</option>
         {#each countries as country}
           <option value={country.code} >
-            <!-- <img
-                src={`https://www.flagsapi.com/${country.code}/flat/24.png`}
-                alt=""
-                draggable="false"
-                class="cursor-pointer"
-              /> -->
             {country.name}
           </option>
         {/each}
